@@ -34,7 +34,7 @@ const Chat = () => {
   ]);
   const [newMessage, setNewMessage] = useState("");
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
 
     const userMessage: Message = {
@@ -45,13 +45,31 @@ const Chat = () => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentMessage = newMessage;
     setNewMessage("");
 
-    // Simulate AI response
-    setTimeout(() => {
+    try {
+      // Call Gemini AI
+      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAgh2fbJkOoS9twWwBUHVUoBOtoBakUYY8', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: `You are Dr. Sarah Chen, an experienced physiotherapist with 15 years of experience. Respond professionally and empathetically to this patient's message: "${currentMessage}". Provide helpful, medically-informed guidance while maintaining a caring tone. Keep responses concise and actionable.`
+            }]
+          }]
+        })
+      });
+
+      const data = await response.json();
+      const aiContent = data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm here to help with your rehabilitation. Could you please share more details about your condition?";
+
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
-        content: "Thank you for sharing that with me. Based on your symptoms, I recommend we focus on gentle mobility exercises today. Let me create a personalized routine for you.",
+        content: aiContent,
         sender: "ai",
         timestamp: new Date(),
         professional: {
@@ -61,7 +79,21 @@ const Chat = () => {
         }
       };
       setMessages(prev => [...prev, aiResponse]);
-    }, 1000);
+    } catch (error) {
+      console.error('Error calling Gemini AI:', error);
+      const fallbackResponse: Message = {
+        id: (Date.now() + 1).toString(),
+        content: "I apologize, but I'm having trouble connecting right now. Please try again in a moment. In the meantime, remember to follow your prescribed exercise routine and don't hesitate to contact me if you experience any concerning symptoms.",
+        sender: "ai",
+        timestamp: new Date(),
+        professional: {
+          name: "Dr. Sarah Chen",
+          specialty: "Physical Therapy",
+          avatar: "SC"
+        }
+      };
+      setMessages(prev => [...prev, fallbackResponse]);
+    }
   };
 
   return (
