@@ -49,8 +49,8 @@ const Chat = () => {
     setNewMessage("");
 
     try {
-      // Call Gemini AI
-      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAgh2fbJkOoS9twWwBUHVUoBOtoBakUYY8', {
+      // Call Gemini AI with correct model name
+      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAgh2fbJkOoS9twWwBUHVUoBOtoBakUYY8', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
