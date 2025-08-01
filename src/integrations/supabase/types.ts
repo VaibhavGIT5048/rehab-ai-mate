@@ -14,7 +14,256 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      chat_conversations: {
+        Row: {
+          created_at: string | null
+          doctor_id: string
+          id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          doctor_id: string
+          id?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          doctor_id?: string
+          id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      chat_messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          created_at: string | null
+          id: string
+          message_type: Database["public"]["Enums"]["message_type"] | null
+          metadata: Json | null
+          sender_type: Database["public"]["Enums"]["sender_type"]
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          created_at?: string | null
+          id?: string
+          message_type?: Database["public"]["Enums"]["message_type"] | null
+          metadata?: Json | null
+          sender_type: Database["public"]["Enums"]["sender_type"]
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          created_at?: string | null
+          id?: string
+          message_type?: Database["public"]["Enums"]["message_type"] | null
+          metadata?: Json | null
+          sender_type?: Database["public"]["Enums"]["sender_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "chat_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      doctors: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          profile_picture: string | null
+          rating: number | null
+          specialty: string | null
+          years_experience: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          profile_picture?: string | null
+          rating?: number | null
+          specialty?: string | null
+          years_experience?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          profile_picture?: string | null
+          rating?: number | null
+          specialty?: string | null
+          years_experience?: number | null
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          created_at: string | null
+          id: string
+          message: string
+          metadata: Json | null
+          read: boolean | null
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          message: string
+          metadata?: Json | null
+          read?: boolean | null
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          message?: string
+          metadata?: Json | null
+          read?: boolean | null
+          title?: string
+          type?: Database["public"]["Enums"]["notification_type"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      posts: {
+        Row: {
+          author_avatar: string
+          author_id: string
+          author_name: string
+          author_title: string
+          author_verified: boolean | null
+          category: Database["public"]["Enums"]["post_category"] | null
+          comments: number | null
+          content: string
+          created_at: string | null
+          id: string
+          image_url: string | null
+          likes: number | null
+          tags: string[] | null
+        }
+        Insert: {
+          author_avatar: string
+          author_id: string
+          author_name: string
+          author_title: string
+          author_verified?: boolean | null
+          category?: Database["public"]["Enums"]["post_category"] | null
+          comments?: number | null
+          content: string
+          created_at?: string | null
+          id?: string
+          image_url?: string | null
+          likes?: number | null
+          tags?: string[] | null
+        }
+        Update: {
+          author_avatar?: string
+          author_id?: string
+          author_name?: string
+          author_title?: string
+          author_verified?: boolean | null
+          category?: Database["public"]["Enums"]["post_category"] | null
+          comments?: number | null
+          content?: string
+          created_at?: string | null
+          id?: string
+          image_url?: string | null
+          likes?: number | null
+          tags?: string[] | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          age: number | null
+          avatar_url: string | null
+          created_at: string | null
+          id: string
+          injury_type: string | null
+          location: string | null
+          name: string
+          preferred_doctor: string | null
+          recovery_goals: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          age?: number | null
+          avatar_url?: string | null
+          created_at?: string | null
+          id: string
+          injury_type?: string | null
+          location?: string | null
+          name: string
+          preferred_doctor?: string | null
+          recovery_goals?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          age?: number | null
+          avatar_url?: string | null
+          created_at?: string | null
+          id?: string
+          injury_type?: string | null
+          location?: string | null
+          name?: string
+          preferred_doctor?: string | null
+          recovery_goals?: string[] | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      users: {
+        Row: {
+          bio: string | null
+          created_at: string | null
+          doctor_id: string | null
+          email: string
+          id: string
+          name: string | null
+          profile_picture: string | null
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string | null
+          doctor_id?: string | null
+          email: string
+          id?: string
+          name?: string | null
+          profile_picture?: string | null
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string | null
+          doctor_id?: string | null
+          email?: string
+          id?: string
+          name?: string | null
+          profile_picture?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "users_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +272,10 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      message_type: "text" | "exercise" | "image"
+      notification_type: "chat" | "exercise" | "achievement" | "doctor"
+      post_category: "all" | "my-doctor" | "exercise-tips" | "inspiration"
+      sender_type: "user" | "ai"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +402,11 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      message_type: ["text", "exercise", "image"],
+      notification_type: ["chat", "exercise", "achievement", "doctor"],
+      post_category: ["all", "my-doctor", "exercise-tips", "inspiration"],
+      sender_type: ["user", "ai"],
+    },
   },
 } as const
