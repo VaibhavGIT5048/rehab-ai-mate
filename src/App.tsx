@@ -8,6 +8,9 @@ import Chat from "./pages/Chat";
 import Exercises from "./pages/Exercises";
 import Progress from "./pages/Progress";
 import Professionals from "./pages/Professionals";
+import Feed from "./pages/Feed";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +27,9 @@ const App = () => (
           <Route path="/exercises" element={<Exercises />} />
           <Route path="/progress" element={<Progress />} />
           <Route path="/professionals" element={<Professionals />} />
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -17,6 +17,7 @@ const Navigation = () => {
 
   const navItems = [
     { path: "/", label: "Home", icon: Heart },
+    { path: "/feed", label: "Feed", icon: MessageCircle },
     { path: "/chat", label: "AI Chat", icon: MessageCircle },
     { path: "/exercises", label: "Exercises", icon: Activity },
     { path: "/progress", label: "Progress", icon: BarChart3 },
